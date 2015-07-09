@@ -1,7 +1,6 @@
 package com.appportolio_cg.android.spotifystreamer;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ public class ArtistArrayAdapter extends ArrayAdapter<Artist> {
 
     public ArtistArrayAdapter(Activity context, List<Artist> artistList) {
         super(context, 0, artistList);
-        Log.i(LOG_TAG, "Test in Artist array adapter constructor");
     }
 
     @Override
@@ -41,12 +39,9 @@ public class ArtistArrayAdapter extends ArrayAdapter<Artist> {
         //load the image view with a artist thumbnail or a default image if the image array is null
         ImageView artistImageView = (ImageView) convertView.findViewById(R.id.list_Artist_Image);
 
-        Log.i(LOG_TAG, "Test in Artist array adapter getView" + artist.images.size());
-
         if (artist.images.size() == 0) {
             artistImageView.setImageResource(R.drawable.missing_image);
         } else {
-            //artistImageView.setImageResource(R.drawable.missing_image);
 
             String url = artist.images.get(0).url;
 

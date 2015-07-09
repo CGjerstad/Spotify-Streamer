@@ -22,20 +22,6 @@ public class MainActivity extends FragmentActivity {
 
         fragmentTransaction.add(R.id.main_activity_Fragment_Container, artistListFragment);
         fragmentTransaction.commit();
-
-        /*if (savedInstanceState == null) {
-
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            artistResultsFragment artistResults = new artistResultsFragment();
-
-            fragmentTransaction.add(R.id.artistResultsContainer, artistResults);
-            fragmentTransaction.commit();
-        }*/
-
-        //Picosso test
-        //Picasso.with(this).load(imageURL).into((ImageView) findViewById(R.id.artist_image));
     }
 
 
