@@ -12,17 +12,15 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import kaaes.spotify.webapi.android.models.Artist;
-
 
 /**
  * Created by Selvar on 7/6/2015.
  */
-public class ArtistArrayAdapter extends ArrayAdapter<Artist> {
+public class ArtistArrayAdapter extends ArrayAdapter<CustomArtist> {
 
     private static final String LOG_TAG = ArtistArrayAdapter.class.getSimpleName();
 
-    public ArtistArrayAdapter(Activity context, List<Artist> artistList) {
+    public ArtistArrayAdapter(Activity context, List<CustomArtist> artistList) {
         super(context, 0, artistList);
     }
 
@@ -34,16 +32,16 @@ public class ArtistArrayAdapter extends ArrayAdapter<Artist> {
                     .inflate(R.layout.list_item_artist, parent, false);
         }
 
-        Artist artist = getItem(position);
+        CustomArtist artist = getItem(position);
 
         //load the image view with a artist thumbnail or a default image if the image array is null
         ImageView artistImageView = (ImageView) convertView.findViewById(R.id.list_Artist_Image);
 
-        if (artist.images.size() == 0) {
+        if (artist.artistImageURL == null) {
             artistImageView.setImageResource(R.drawable.missing_image);
         } else {
 
-            String url = artist.images.get(0).url;
+            String url = artist.artistImageURL;
 
             Picasso.with(getContext()).load(url)
                     .into((ImageView) convertView.findViewById(R.id.list_Artist_Image));
@@ -51,7 +49,7 @@ public class ArtistArrayAdapter extends ArrayAdapter<Artist> {
 
         //load the text view with the artists name
         TextView artistNameView = (TextView) convertView.findViewById(R.id.list_Artist_Name);
-        artistNameView.setText(artist.name);
+        artistNameView.setText(artist.artistName);
 
 
         return convertView;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,9 +32,26 @@ import retrofit.RetrofitError;
 public class ArtistListFragment extends Fragment {
 
     public ArtistArrayAdapter mArtistAdapter;
+    public ArrayList<CustomArtist> customArtistList;
 
     public ArtistListFragment() {
 
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null || !savedInstanceState.containsKey("artistData")) {
+            customArtistList = new ArrayList<CustomArtist>();
+        } else {
+            customArtistList = savedInstanceState.getParcelableArrayList("artistData");
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList("artistData", customArtistList);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -41,12 +59,27 @@ public class ArtistListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.artist_list_fragment_layout, container, false);
 
-        mArtistAdapter = new ArtistArrayAdapter(getActivity(), new ArrayList<Artist>());
+        mArtistAdapter = new ArtistArrayAdapter(getActivity(), customArtistList);
 
         //get an reference to Listview
         ListView listView = (ListView) rootView.findViewById(R.id.artistList_ListView);
         // attach adapter
         listView.setAdapter(mArtistAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                CustomArtist artist = mArtistAdapter.getItem(i);
+
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), artist.artistName, Toast.LENGTH_SHORT);
+                toast.show();
+
+                //Intent topTracksIntent = new Intent(getActivity(), TopTracksActivity.class);
+                //startActivity(topTracksIntent);
+            }
+        });
+
 
         //set up the on click listener for the edit text
         final EditText editText = (EditText) rootView.findViewById(R.id.artist_search_editText);
@@ -117,13 +150,30 @@ public class ArtistListFragment extends Fragment {
 
                 List<Artist> artists = results.artists.items;
 
+                CustomArtist customArtist;
+
                 // Checks if there are any artists in the artist array.
                 // If they are it places each artist into mAdapterArtist
                 // If not it displays a toast to inform the user the artist was not found.
                 if (artists.size() > 0) {
 
                     for (int i = 0; i < artists.size(); i++) {
-                        mArtistAdapter.add(artists.get(i));
+
+                        // checks to see if the artist object from spotiy has image data
+                        // if it does it stores the URL to the image in the customArtist
+                        // if not it sets the image URL data to  null;
+                        if (artists.get(i).images.size() > 0) {
+                            //stores date from spotify to the custom artist object
+                            customArtist = new CustomArtist(artists.get(i).name,
+                                    artists.get(i).id,
+                                    artists.get(i).images.get(0).url);
+                        } else {
+                            customArtist = new CustomArtist(artists.get(i).name,
+                                    artists.get(i).id,
+                                    null);
+                        }
+
+                        mArtistAdapter.add(customArtist);
                     }
 
                 } else {

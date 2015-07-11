@@ -3,25 +3,27 @@ package com.appportolio_cg.android.spotifystreamer;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        ArtistListFragment artistListFragment = new ArtistListFragment();
+            ArtistListFragment artistListFragment = new ArtistListFragment();
 
-        fragmentTransaction.add(R.id.main_activity_Fragment_Container, artistListFragment);
-        fragmentTransaction.commit();
+            fragmentTransaction.add(R.id.main_activity_Fragment_Container, artistListFragment);
+            fragmentTransaction.commit();
+        }
     }
 
 
