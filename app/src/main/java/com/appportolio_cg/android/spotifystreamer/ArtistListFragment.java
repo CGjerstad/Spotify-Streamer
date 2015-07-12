@@ -2,6 +2,7 @@ package com.appportolio_cg.android.spotifystreamer;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,12 +72,9 @@ public class ArtistListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 CustomArtist artist = mArtistAdapter.getItem(i);
-
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), artist.artistName, Toast.LENGTH_SHORT);
-                toast.show();
-
-                //Intent topTracksIntent = new Intent(getActivity(), TopTracksActivity.class);
-                //startActivity(topTracksIntent);
+                Intent topTracksIntent = new Intent(getActivity(), TopTracksActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, artist.artistId);
+                startActivity(topTracksIntent);
             }
         });
 

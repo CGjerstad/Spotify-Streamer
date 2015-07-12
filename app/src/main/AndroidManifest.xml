@@ -19,6 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".TopTracksActivity"
+            android:label="@string/title_activity_toptracks"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.appportolio_cg.android.spotifystreamer.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
