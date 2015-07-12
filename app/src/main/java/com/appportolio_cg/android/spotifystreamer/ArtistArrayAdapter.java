@@ -18,8 +18,6 @@ import java.util.List;
  */
 public class ArtistArrayAdapter extends ArrayAdapter<CustomArtist> {
 
-    private static final String LOG_TAG = ArtistArrayAdapter.class.getSimpleName();
-
     public ArtistArrayAdapter(Activity context, List<CustomArtist> artistList) {
         super(context, 0, artistList);
     }

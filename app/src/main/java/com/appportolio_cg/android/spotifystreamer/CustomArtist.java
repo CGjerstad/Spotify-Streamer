@@ -5,7 +5,11 @@ import android.os.Parcelable;
 
 /**
  * Created by Selvar on 7/11/2015.
+ *
+ * This is a parcelable used to store the results from spotify
  */
+
+
 public class CustomArtist implements Parcelable {
 
     public final Parcelable.Creator<CustomArtist> CREATOR = new Parcelable.Creator<CustomArtist>() {
@@ -19,6 +23,7 @@ public class CustomArtist implements Parcelable {
             return new CustomArtist[i];
         }
     };
+
     String artistName;
     String artistId;
     String artistImageURL;

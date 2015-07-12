@@ -67,6 +67,7 @@ public class ArtistListFragment extends Fragment {
         // attach adapter
         listView.setAdapter(mArtistAdapter);
 
+        // OnClickItemListener for launching the top tracks activity after the user selects a artist
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -101,6 +102,7 @@ public class ArtistListFragment extends Fragment {
         return rootView;
     }
 
+    // simple method that executes search artist with the artist name provided by user input
     public void searchArtist(String name) {
         SearchArtistTask searchArtist = new SearchArtistTask();
         searchArtist.execute(name);
@@ -139,15 +141,10 @@ public class ArtistListFragment extends Fragment {
             // Checks if "results" is null
             // If it isn't it will clear the adapter and procede to check for artist data
             // If the results are null it displays a toast to try again and ask the user -
-            // to verify they have a connection ( for example this will prompt if the device is in airplane mode )
+            // to verify if they have a connection ( for example this will prompt if the device is in airplane mode )
             if (results != null) {
                 mArtistAdapter.clear();
-
-                Log.i(LOG_TAG, "Test in onPostExecute - inside if statement");
-
-
                 List<Artist> artists = results.artists.items;
-
                 CustomArtist customArtist;
 
                 // Checks if there are any artists in the artist array.
@@ -175,7 +172,7 @@ public class ArtistListFragment extends Fragment {
                     }
 
                 } else {
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Unable to find artist", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Unable to find artist, please refine search", Toast.LENGTH_SHORT);
                     toast.show();
                 }
 

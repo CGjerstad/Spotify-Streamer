@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 /**
  * Created by Selvar on 7/11/2015.
+ *
+ * this is a parcelable object used to store the data from spotify
  */
 public class CustomTrack implements Parcelable {
 

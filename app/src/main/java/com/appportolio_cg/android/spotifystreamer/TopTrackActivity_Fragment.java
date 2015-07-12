@@ -60,7 +60,9 @@ public class TopTrackActivity_Fragment extends Fragment {
 
         mTrackAdapter = new TrackArrayAdapter(getActivity(), customTrackList);
 
+        //get an reference to Listview
         ListView listView = (ListView) rootView.findViewById(R.id.toptrack_listview);
+        // attach adapter
         listView.setAdapter(mTrackAdapter);
 
         Intent intent = getActivity().getIntent();
@@ -88,19 +90,16 @@ public class TopTrackActivity_Fragment extends Fragment {
 
             Tracks results = null;
 
-            Log.i(LOG_TAG, "Tracks doInBackground param passed - " + params[0]);
-
             try {
                 SpotifyApi api = new SpotifyApi();
                 SpotifyService spotify = api.getService();
 
+
+                // Thanks to my Udacity peers on the forums for sort out this country code stuff
                 Map<String, Object> options = new HashMap<>();
                 options.put(SpotifyService.COUNTRY, Locale.getDefault().getCountry());
-                //options.put("country", "US");
 
                 results = spotify.getArtistTopTrack(params[0], options);
-
-                Log.i(LOG_TAG, "Tracks doInBackground - " + results.tracks.size());
 
             } catch (RetrofitError error) {
                 Log.e(LOG_TAG, error.getMessage(), error);
@@ -112,35 +111,36 @@ public class TopTrackActivity_Fragment extends Fragment {
         @Override
         protected void onPostExecute(Tracks results) {
 
+            // Checks if "results" is null
+            // If it isn't it will clear the adapter and procede to check for artist data
+            // If the results are null it displays a toast to try again and ask the user -
+            // to verify if they have a connection ( for example this will prompt if the device is in airplane mode )
             if (results != null) {
 
                 mTrackAdapter.clear();
-
-                Log.i(LOG_TAG, "Tracks oPostExecute passed null check");
-
                 List<Track> tracks = results.tracks;
-
                 CustomTrack customTrack;
 
+                // Checks if there are any tracks in the track array.
+                // If they are it places each track into mAdapterArtist
+                // If not it displays a toast to inform the user no tracks were found
                 if (tracks.size() > 0) {
-
-                    Log.i(LOG_TAG, "Tracks oPostExecute passed tracks.size check");
 
                     for (int i = 0; i < tracks.size(); i++) {
 
+                        // checks to see if the album object ( in the track object ) from spotiy has image data
+                        // if it does it stores the URL to the image in the customTrack
+                        // if not it sets the image URL data to  null;
                         if (tracks.get(i).album.images.size() > 0) {
 
+                            //stores date from spotify to the custom track object
+                            // This first part is set to null due to a bug causing a crash
+                            // I am working on cleaning it up for Project 2
                             customTrack = new CustomTrack((null),
                                     tracks.get(i).name,
                                     tracks.get(i).album.name,
                                     tracks.get(i).album.images.get(0).url,
                                     tracks.get(i).id);
-
-                            //Log.i(LOG_TAG, "Tracks oPostExecute inside" + tracks.get(i).artists.get(i).name);
-                            Log.i(LOG_TAG, "Tracks oPostExecute inside" + tracks.get(i).name);
-                            Log.i(LOG_TAG, "Tracks oPostExecute inside" + tracks.get(i).album.name);
-                            Log.i(LOG_TAG, "Tracks oPostExecute inside" + tracks.get(i).album.images.get(0).url);
-                            Log.i(LOG_TAG, "Tracks oPostExecute inside" + tracks.get(i).id);
 
                         } else {
                             customTrack = new CustomTrack((tracks.get(i).artists.get(i).name),
